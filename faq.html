@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frequently Asked Questions | Alshafi Herbal Products</title>
+<meta name="description" content="Find answers to common questions about Alshafi Herbal Products — delivery, payment, product safety, returns and more.">
+<link rel="canonical" href="https://www.alshafiherbal.com/faq.html">
+<meta property="og:title" content="FAQ | Alshafi Herbal Products">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/responsive.css">
+<script type="application/ld+json" id="faqSchema"></script>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+<div id="loading-screen"><div class="loader-leaf" aria-hidden="true"></div><span>Alshafi Herbal</span></div>
+
+<main id="main">
+  <section class="page-hero section-tight">
+    <div class="container">
+      <h1>Frequently Asked Questions</h1>
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>FAQ</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container" style="max-width:820px;">
+      <div class="glass" style="padding:var(--sp-6);" id="faqAccordion"></div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="newsletter-panel reveal">
+        <div>
+          <h3>Still Have Questions?</h3>
+          <p>Our support team is ready to help you find the right herbal formulation.</p>
+        </div>
+        <div style="display:flex; gap:1rem; position:relative; z-index:1; flex-wrap:wrap;">
+          <a href="contact.html" class="btn btn-gold">Contact Us</a>
+          <a href="https://wa.me/923001234567" target="_blank" rel="noopener" class="btn btn-outline" style="border-color:rgba(244,239,228,0.4);">WhatsApp Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/store.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const faqs = await AlshafiData.getFaqs();
+  const wrap = document.getElementById("faqAccordion");
+  wrap.innerHTML = faqs.map((f, i) => `
+    <div class="accordion-item">
+      <button class="accordion-trigger" id="faqTrigger${i}" aria-expanded="false" aria-controls="faqPanel${i}">
+        <span>${f.q}</span>
+        ${AlshafiIcons.plus}
+      </button>
+      <div class="accordion-panel" id="faqPanel${i}" role="region" aria-labelledby="faqTrigger${i}">
+        <div class="accordion-panel-inner"><p>${f.a}</p></div>
+      </div>
+    </div>
+  `).join("");
+
+  document.getElementById("faqSchema").textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } }))
+  });
+
+  wrap.querySelectorAll(".accordion-trigger").forEach(trigger => {
+    trigger.addEventListener("click", () => {
+      const panel = document.getElementById(trigger.getAttribute("aria-controls"));
+      const isOpen = trigger.getAttribute("aria-expanded") === "true";
+      // Close all
+      wrap.querySelectorAll(".accordion-trigger").forEach(t => t.setAttribute("aria-expanded", "false"));
+      wrap.querySelectorAll(".accordion-panel").forEach(p => p.style.maxHeight = null);
+      if (!isOpen) {
+        trigger.setAttribute("aria-expanded", "true");
+        panel.style.maxHeight = panel.scrollHeight + "px";
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>

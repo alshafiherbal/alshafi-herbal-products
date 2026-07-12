@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Product | Alshafi Herbal Products</title>
+<meta name="description" id="pageDesc" content="Shop premium herbal products from Alshafi Herbal Products.">
+<link rel="canonical" id="canonicalLink" href="https://www.alshafiherbal.com/product.html">
+<meta property="og:type" content="product">
+<meta property="og:title" id="ogTitle" content="Alshafi Herbal Products">
+<meta property="og:description" id="ogDesc" content="">
+<meta property="og:image" id="ogImage" content="">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/responsive.css">
+<script type="application/ld+json" id="productSchema"></script>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+<div id="loading-screen"><div class="loader-leaf" aria-hidden="true"></div><span>Alshafi Herbal</span></div>
+
+<main id="main">
+  <section class="section-tight" style="padding-top:var(--sp-6); padding-bottom:0;">
+    <div class="container">
+      <div class="breadcrumb" style="justify-content:flex-start;" id="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="shop.html">Shop</a></div>
+    </div>
+  </section>
+
+  <section id="productDetailSection">
+    <div class="container product-detail-grid" id="productDetailGrid">
+      <!-- injected by product.js -->
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="pd-tabs" role="tablist">
+        <button class="pd-tab-btn active" data-tab="description" role="tab" aria-selected="true">Description</button>
+        <button class="pd-tab-btn" data-tab="ingredients" role="tab" aria-selected="false">Ingredients &amp; Usage</button>
+        <button class="pd-tab-btn" data-tab="reviews" role="tab" aria-selected="false">Reviews</button>
+      </div>
+      <div class="pd-tab-panel active" id="tab-description"></div>
+      <div class="pd-tab-panel" id="tab-ingredients"></div>
+      <div class="pd-tab-panel" id="tab-reviews"></div>
+    </div>
+  </section>
+
+  <section style="background:var(--color-black-soft);">
+    <div class="container">
+      <div class="section-flex-head"><div><span class="eyebrow">You May Also Like</span><h2>Related Products</h2></div></div>
+      <div class="products-grid" id="relatedGrid"></div>
+    </div>
+  </section>
+
+  <section id="recentlyViewedSection" style="display:none;">
+    <div class="container">
+      <div class="section-flex-head"><div><span class="eyebrow">Continue Browsing</span><h2>Recently Viewed</h2></div></div>
+      <div class="hscroll" id="recentGrid"></div>
+    </div>
+  </section>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/store.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/product-card.js"></script>
+<script src="js/main.js"></script>
+<script src="js/product.js"></script>
+</body>
+</html>

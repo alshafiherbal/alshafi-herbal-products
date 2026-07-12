@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout | Alshafi Herbal Products</title>
+<meta name="description" content="Complete your order from Alshafi Herbal Products. Cash on Delivery available nationwide.">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://www.alshafiherbal.com/checkout.html">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+<div id="loading-screen"><div class="loader-leaf" aria-hidden="true"></div><span>Alshafi Herbal</span></div>
+
+<main id="main">
+  <section class="page-hero section-tight">
+    <div class="container">
+      <h1>Checkout</h1>
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="cart.html">Cart</a><span>/</span><span>Checkout</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="steps-row">
+        <div class="step-pill active"><span class="step-num">1</span><span>Shipping Info</span></div>
+        <div class="step-pill active"><span class="step-num">2</span><span>Payment Method</span></div>
+        <div class="step-pill"><span class="step-num">3</span><span>Order Confirmed</span></div>
+      </div>
+
+      <div class="checkout-grid">
+        <div>
+          <form id="checkoutForm" class="glass" style="padding:var(--sp-6);" novalidate>
+            <h3 class="mb-6">Shipping Information</h3>
+            <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="fullName">Full Name *</label>
+                <input type="text" id="fullName" name="fullName" required>
+                <span class="form-error">Please enter your full name.</span>
+              </div>
+              <div class="form-field">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required placeholder="03XX-XXXXXXX">
+                <span class="form-error">Please enter a valid phone number.</span>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" placeholder="Optional, for order updates">
+              <span class="form-error">Please enter a valid email.</span>
+            </div>
+
+            <div class="form-field">
+              <label for="address">Complete Address *</label>
+              <textarea id="address" name="address" rows="3" required placeholder="House #, Street, Area"></textarea>
+              <span class="form-error">Please enter your delivery address.</span>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="city">City *</label>
+                <input type="text" id="city" name="city" required>
+                <span class="form-error">Please enter your city.</span>
+              </div>
+              <div class="form-field">
+                <label for="postalCode">Postal Code</label>
+                <input type="text" id="postalCode" name="postalCode">
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="orderNotes">Order Notes</label>
+              <textarea id="orderNotes" name="orderNotes" rows="2" placeholder="Any special instructions for delivery (optional)"></textarea>
+            </div>
+
+            <h3 class="mb-4 mt-6">Payment Method</h3>
+            <label class="payment-option">
+              <input type="radio" name="payment" value="cod" checked>
+              <div><strong>Cash on Delivery</strong><p class="form-hint">Pay in cash when your order arrives.</p></div>
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="payment" value="bank">
+              <div><strong>Bank Transfer</strong><p class="form-hint">Account details will be shared after order confirmation.</p></div>
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="payment" value="jazzcash">
+              <div><strong>JazzCash / EasyPaisa</strong><p class="form-hint">Pay via mobile wallet after order confirmation.</p></div>
+            </label>
+
+            <button type="submit" class="btn btn-gold btn-block mt-6" id="placeOrderBtn">Place Order</button>
+            <a id="whatsappOrderBtn" href="#" target="_blank" rel="noopener" class="btn btn-green btn-block mt-2">Or Order via WhatsApp Instead</a>
+          </form>
+        </div>
+
+        <div class="glass" style="padding:var(--sp-6); align-self:start;">
+          <h3 class="mb-4">Order Summary</h3>
+          <div id="checkoutItemsList"></div>
+          <div class="order-summary-line"><span>Subtotal</span><span id="coSubtotal">Rs. 0</span></div>
+          <div class="order-summary-line"><span>Shipping</span><span id="coShipping">Rs. 200</span></div>
+          <div class="order-summary-line total"><span>Total</span><span id="coTotal">Rs. 0</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Order confirmation modal -->
+  <div class="drawer-overlay" id="confirmOverlay"></div>
+  <div class="glass" id="confirmModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:1000; width:min(440px, 90vw); padding:var(--sp-8); text-align:center;">
+    <div style="font-size:3rem;">✅</div>
+    <h3 class="mt-4">Order Placed Successfully!</h3>
+    <p class="mt-2">Your order ID is <strong id="orderIdDisplay"></strong>. We'll contact you shortly to confirm delivery details.</p>
+    <a href="index.html" class="btn btn-gold btn-block mt-6">Back to Home</a>
+  </div>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/store.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+<script src="js/checkout.js"></script>
+</body>
+</html>

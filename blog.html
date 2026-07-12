@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Herbal Wellness Blog | Alshafi Herbal Products</title>
+<meta name="description" content="Read about traditional Unani herbal wisdom, wellness tips, and product guides from Alshafi Herbal Products.">
+<link rel="canonical" href="https://www.alshafiherbal.com/blog.html">
+<meta property="og:title" content="Herbal Wellness Blog | Alshafi Herbal Products">
+<meta property="og:description" content="Traditional Unani herbal wisdom, wellness tips, and product guides.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+<div id="loading-screen"><div class="loader-leaf" aria-hidden="true"></div><span>Alshafi Herbal</span></div>
+
+<main id="main">
+  <section class="page-hero section-tight">
+    <div class="container">
+      <h1>Herbal Wellness Blog</h1>
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Blog</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="blog-grid" id="blogGrid"></div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <div class="newsletter-panel reveal">
+        <div>
+          <h3>Never Miss a Wellness Tip</h3>
+          <p>Subscribe to get new articles and herbal guidance straight to your inbox.</p>
+        </div>
+        <form class="newsletter-form" id="blogNewsletterForm">
+          <label for="blogNewsletterEmail" class="visually-hidden">Email address</label>
+          <input type="email" id="blogNewsletterEmail" placeholder="Enter your email address" required>
+          <button type="submit" class="btn btn-gold">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/store.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const posts = await AlshafiData.getBlogPosts();
+  document.getElementById("blogGrid").innerHTML = posts.map(p => `
+    <article class="blog-card glass reveal">
+      <a href="blog-post.html?slug=${p.slug}"><img class="lazy-img" src="${p.image}" alt="${p.title}" loading="lazy" width="400" height="250"></a>
+      <div class="blog-body">
+        <div class="blog-meta"><span>${p.category}</span><span>${AlshafiUtils.formatDate(p.date)}</span></div>
+        <h4><a href="blog-post.html?slug=${p.slug}">${p.title}</a></h4>
+        <p>${p.excerpt}</p>
+        <a class="blog-readmore" href="blog-post.html?slug=${p.slug}">Read More →</a>
+      </div>
+    </article>
+  `).join("");
+  document.dispatchEvent(new CustomEvent("alshafi:content-rendered"));
+
+  document.getElementById("blogNewsletterForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("blogNewsletterEmail").value.trim();
+    if (!AlshafiUtils.validateEmail(email)) { showToast("Please enter a valid email address"); return; }
+    await AlshafiData.subscribeNewsletter(email);
+    e.target.reset();
+    showToast("Thanks for subscribing!");
+  });
+});
+</script>
+</body>
+</html>

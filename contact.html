@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us | Alshafi Herbal Products</title>
+<meta name="description" content="Get in touch with Alshafi Herbal Products. Call, WhatsApp, or send us a message for product guidance and order support.">
+<link rel="canonical" href="https://www.alshafiherbal.com/contact.html">
+<meta property="og:title" content="Contact Us | Alshafi Herbal Products">
+<meta property="og:description" content="Call, WhatsApp, or message us for product guidance and order support.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/responsive.css">
+<script type="application/ld+json">
+{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+ {"@type":"ListItem","position":1,"name":"Home","item":"https://www.alshafiherbal.com/"},
+ {"@type":"ListItem","position":2,"name":"Contact Us","item":"https://www.alshafiherbal.com/contact.html"}
+]}
+</script>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+<div id="loading-screen"><div class="loader-leaf" aria-hidden="true"></div><span>Alshafi Herbal</span></div>
+
+<main id="main">
+  <section class="page-hero section-tight">
+    <div class="container">
+      <h1>Contact Us</h1>
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Contact Us</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container checkout-grid">
+      <div class="glass reveal" style="padding:var(--sp-6);">
+        <h3 class="mb-6">Send Us a Message</h3>
+        <form id="contactForm" novalidate>
+          <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="form-row">
+            <div class="form-field">
+              <label for="cName">Full Name *</label>
+              <input type="text" id="cName" name="name" required>
+              <span class="form-error">Please enter your name.</span>
+            </div>
+            <div class="form-field">
+              <label for="cPhone">Phone Number *</label>
+              <input type="tel" id="cPhone" name="phone" required placeholder="03XX-XXXXXXX">
+              <span class="form-error">Please enter a valid phone number.</span>
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="cEmail">Email Address *</label>
+            <input type="email" id="cEmail" name="email" required>
+            <span class="form-error">Please enter a valid email address.</span>
+          </div>
+          <div class="form-field">
+            <label for="cSubject">Subject</label>
+            <select id="cSubject" name="subject">
+              <option>Product Inquiry</option>
+              <option>Order Support</option>
+              <option>Wholesale / Bulk Order</option>
+              <option>General Feedback</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="cMessage">Message *</label>
+            <textarea id="cMessage" name="message" rows="5" required placeholder="How can we help you?"></textarea>
+            <span class="form-error">Please enter your message.</span>
+          </div>
+          <button type="submit" class="btn btn-gold btn-block" id="contactSubmitBtn">Send Message</button>
+        </form>
+      </div>
+
+      <div>
+        <div class="glass reveal" style="padding:var(--sp-6); margin-bottom:var(--sp-5);">
+          <h4 class="mb-4">Get in Touch</h4>
+          <div class="footer-col">
+            <ul style="gap:var(--sp-4);">
+              <li>📍 123 Herbal Street, Islamabad, Pakistan</li>
+              <li>📞 <a href="tel:+923001234567">+92 300 1234567</a></li>
+              <li>✉️ <a href="mailto:info@alshafiherbal.com">info@alshafiherbal.com</a></li>
+              <li>🕒 Mon – Sat: 9:00 AM – 8:00 PM</li>
+            </ul>
+          </div>
+          <div class="social-row">
+            <a href="https://facebook.com" class="social-icon" aria-label="Facebook" target="_blank" rel="noopener">FB</a>
+            <a href="https://instagram.com" class="social-icon" aria-label="Instagram" target="_blank" rel="noopener">IG</a>
+            <a href="https://wa.me/923001234567" class="social-icon" aria-label="WhatsApp" target="_blank" rel="noopener">WA</a>
+          </div>
+        </div>
+        <div class="glass reveal" style="padding:0; overflow:hidden; border-radius:var(--radius-lg);">
+          <iframe title="Alshafi Herbal Products location map" src="https://www.google.com/maps?q=Islamabad,Pakistan&output=embed" width="100%" height="280" style="border:0; display:block;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/store.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("contactForm");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!AlshafiUtils.validateForm(form)) { showToast("Please fill in all required fields correctly"); return; }
+    const btn = document.getElementById("contactSubmitBtn");
+    const original = btn.textContent;
+    btn.disabled = true; btn.textContent = "Sending…";
+    const payload = Object.fromEntries(new FormData(form).entries());
+    await AlshafiData.submitContactForm(payload);
+    btn.disabled = false; btn.textContent = original;
+    form.reset();
+    showToast("Message sent! We'll get back to you shortly.");
+  });
+});
+</script>
+</body>
+</html>
