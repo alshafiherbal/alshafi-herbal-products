@@ -226,7 +226,20 @@
 }
 .fab:hover { transform: scale(1.08); }
 .fab svg { width: 26px; height: 26px; }
-.fab-whatsapp { background: #25D366; color: #06210F; }
+.fab-whatsapp { background: #25D366; color: #06210F; position: relative; }
+.fab-whatsapp::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #25D366;
+  animation: whatsappPulse 2.6s ease-out infinite;
+  z-index: -1;
+}
+@keyframes whatsappPulse {
+  0% { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
 .fab-call { background: var(--grad-gold); color: #1B1204; }
 .fab-top {
   width: 44px; height: 44px;

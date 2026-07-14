@@ -26,8 +26,8 @@
       <div class="header-top">
         <div class="container">
           <div class="header-top-links">
-            <a href="tel:+923001234567">📞 +92 300 1234567</a>
-            <a href="mailto:info@alshafiherbal.com">✉️ info@alshafiherbal.com</a>
+            <a href="tel:+923193830108">📞 +92 319 3830108</a>
+            <a href="mailto:alshafialshafiherbalproducts@gmail.com">✉️ alshafialshafiherbalproducts@gmail.com</a>
           </div>
           <div class="header-top-tools">
             <span data-i18n="freeShip">Free delivery on orders over Rs. 3000</span>
@@ -48,7 +48,7 @@
         <ul class="nav-links" id="navLinks">
           ${navItem("index.html", "Home", currentPage === "index.html" || currentPage === "")}
           <li class="has-mega" id="shopMega">
-            <a href="shop.html"${currentPage === "shop.html" ? ' class="active"' : ""}>Shop ${I.chevDown}</a>
+            <a href="shop.html" aria-haspopup="true"${currentPage === "shop.html" ? ' class="active"' : ""}>Shop ${I.chevDown}</a>
             <div class="mega-menu" role="menu">
               <div class="mega-col">
                 <h5>Categories</h5>
@@ -77,7 +77,7 @@
                 </ul>
               </div>
               <a href="shop.html?filter=bestseller" class="mega-feature">
-                <img src="https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=500&q=70" alt="Best selling herbal products" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=500&q=70" alt="Best selling herbal products" loading="lazy" decoding="async" width="500" height="320">
                 <span>Shop Best Sellers →</span>
               </a>
             </div>
@@ -97,7 +97,7 @@
             <button class="currency-toggle" id="currencyToggle" aria-label="Switch currency">${AlshafiStore.getCurrency()}</button>
           </div>
           <div style="position:relative;">
-            <button class="icon-btn" id="searchToggle" aria-label="Search products">${I.search}</button>
+            <button class="icon-btn" id="searchToggle" aria-label="Search products" aria-expanded="false" aria-controls="searchPanel">${I.search}</button>
             <div class="search-panel glass" id="searchPanel">
               <form role="search" action="shop.html" method="get">
                 <input type="search" name="q" placeholder="Search herbal products…" aria-label="Search products">
@@ -105,8 +105,8 @@
               </form>
             </div>
           </div>
-          <button class="icon-btn" id="wishlistToggle" aria-label="Open wishlist">${I.heart}<span class="icon-count" id="wishCount">${wishCount}</span></button>
-          <button class="icon-btn" id="cartToggle" aria-label="Open cart">${I.cart}<span class="icon-count" id="cartCount">${cartCount}</span></button>
+          <button class="icon-btn" id="wishlistToggle" aria-label="Open wishlist, ${wishCount} item${wishCount === 1 ? "" : "s"}">${I.heart}<span class="icon-count" id="wishCount" aria-hidden="true">${wishCount}</span></button>
+          <button class="icon-btn" id="cartToggle" aria-label="Open cart, ${cartCount} item${cartCount === 1 ? "" : "s"}">${I.cart}<span class="icon-count" id="cartCount" aria-hidden="true">${cartCount}</span></button>
         </div>
       </nav>
     `;
@@ -158,9 +158,9 @@
           <div class="footer-col">
             <h5>Get In Touch</h5>
             <ul>
-              <li>📍 123 Herbal Street, Islamabad, Pakistan</li>
-              <li>📞 +92 300 1234567</li>
-              <li>✉️ info@alshafiherbal.com</li>
+              <li>📍 District Jhang, Ayub Chowk, Near Al Jannat Bakery, Punjab, Pakistan</li>
+              <li>📞 <a href="tel:+923193830108">+92 319 3830108</a></li>
+              <li>✉️ <a href="mailto:alshafialshafiherbalproducts@gmail.com">alshafialshafiherbalproducts@gmail.com</a></li>
               <li>🕒 Mon–Sat: 9am – 8pm</li>
             </ul>
           </div>
@@ -184,8 +184,8 @@
     wrap.className = "floating-actions";
     wrap.innerHTML = `
       <button class="fab fab-top" id="scrollTopBtn" aria-label="Scroll to top">${I.arrowUp}</button>
-      <a class="fab fab-call" href="tel:+923001234567" aria-label="Call us now">${I.phone}</a>
-      <a class="fab fab-whatsapp" href="https://wa.me/923001234567?text=Assalamualaikum%2C%20I%27m%20interested%20in%20Alshafi%20Herbal%20Products" target="_blank" rel="noopener" aria-label="Order on WhatsApp">${I.whatsapp}</a>
+      <a class="fab fab-call" href="tel:+923193830108" aria-label="Call us now">${I.phone}</a>
+      <a class="fab fab-whatsapp" href="https://wa.me/923193830108?text=Assalamualaikum%2C%20I%27m%20interested%20in%20Alshafi%20Herbal%20Products" target="_blank" rel="noopener" aria-label="Order on WhatsApp">${I.whatsapp}</a>
     `;
     document.body.appendChild(wrap);
 
@@ -205,9 +205,11 @@
     const cartDrawer = document.createElement("aside");
     cartDrawer.className = "drawer";
     cartDrawer.id = "cartDrawer";
-    cartDrawer.setAttribute("aria-label", "Shopping cart");
+    cartDrawer.setAttribute("role", "dialog");
+    cartDrawer.setAttribute("aria-modal", "true");
+    cartDrawer.setAttribute("aria-labelledby", "cartDrawerTitle");
     cartDrawer.innerHTML = `
-      <div class="drawer-head"><h4>Your Cart</h4><button class="icon-btn" id="closeCart" aria-label="Close cart">${I.close}</button></div>
+      <div class="drawer-head"><h4 id="cartDrawerTitle">Your Cart</h4><button class="icon-btn" id="closeCart" aria-label="Close cart">${I.close}</button></div>
       <div class="drawer-body" id="cartDrawerBody"></div>
       <div class="drawer-foot" id="cartDrawerFoot"></div>
     `;
@@ -216,9 +218,11 @@
     const wishDrawer = document.createElement("aside");
     wishDrawer.className = "drawer";
     wishDrawer.id = "wishDrawer";
-    wishDrawer.setAttribute("aria-label", "Wishlist");
+    wishDrawer.setAttribute("role", "dialog");
+    wishDrawer.setAttribute("aria-modal", "true");
+    wishDrawer.setAttribute("aria-labelledby", "wishDrawerTitle");
     wishDrawer.innerHTML = `
-      <div class="drawer-head"><h4>Your Wishlist</h4><button class="icon-btn" id="closeWish" aria-label="Close wishlist">${I.close}</button></div>
+      <div class="drawer-head"><h4 id="wishDrawerTitle">Your Wishlist</h4><button class="icon-btn" id="closeWish" aria-label="Close wishlist">${I.close}</button></div>
       <div class="drawer-body" id="wishDrawerBody"></div>
     `;
     document.body.appendChild(wishDrawer);
@@ -228,16 +232,24 @@
     overlay.onclick = closeDrawers;
   }
 
+  let lastFocusedEl = null;
+
   function openDrawer(which) {
     closeDrawers();
+    lastFocusedEl = document.activeElement;
     document.getElementById("drawerOverlay").classList.add("open");
-    document.getElementById(which).classList.add("open");
+    const drawer = document.getElementById(which);
+    drawer.classList.add("open");
     document.body.style.overflow = "hidden";
+    const closeBtn = drawer.querySelector(".icon-btn");
+    if (closeBtn) closeBtn.focus();
   }
   function closeDrawers() {
+    const wasOpen = document.querySelector(".drawer.open");
     document.getElementById("drawerOverlay")?.classList.remove("open");
     document.querySelectorAll(".drawer").forEach(d => d.classList.remove("open"));
     document.body.style.overflow = "";
+    if (wasOpen && lastFocusedEl) { lastFocusedEl.focus(); lastFocusedEl = null; }
   }
 
   function renderCartDrawer() {
@@ -251,7 +263,7 @@
     }
     body.innerHTML = cart.map(item => `
       <div class="cart-line" data-id="${item.id}">
-        <img src="${item.image}" alt="${item.name}" loading="lazy">
+        <img src="${item.image}" alt="${item.name}" loading="lazy" decoding="async" width="70" height="70">
         <div class="cart-line-info">
           <strong>${item.name}</strong>
           <span class="form-hint">${item.weight || ""}</span>
@@ -289,7 +301,7 @@
     const items = all.filter(p => slugs.includes(p.slug));
     body.innerHTML = items.map(p => `
       <div class="cart-line">
-        <img src="${p.images[0]}" alt="${p.name}" loading="lazy">
+        <img src="${p.images[0]}" alt="${p.name}" loading="lazy" decoding="async" width="70" height="70">
         <div class="cart-line-info">
           <strong><a href="product.html?slug=${p.slug}">${p.name}</a></strong>
           <span class="form-hint">${AlshafiStore.formatPrice(p.price)}</span>
@@ -305,8 +317,16 @@
   function updateBadges() {
     const cartEl = document.getElementById("cartCount");
     const wishEl = document.getElementById("wishCount");
-    if (cartEl) cartEl.textContent = AlshafiStore.cartCount();
-    if (wishEl) wishEl.textContent = AlshafiStore.getWishlist().length;
+    const cartCount = AlshafiStore.cartCount();
+    const wishCount = AlshafiStore.getWishlist().length;
+    if (cartEl) {
+      cartEl.textContent = cartCount;
+      document.getElementById("cartToggle")?.setAttribute("aria-label", `Open cart, ${cartCount} item${cartCount === 1 ? "" : "s"}`);
+    }
+    if (wishEl) {
+      wishEl.textContent = wishCount;
+      document.getElementById("wishlistToggle")?.setAttribute("aria-label", `Open wishlist, ${wishCount} item${wishCount === 1 ? "" : "s"}`);
+    }
   }
 
   function wireHeaderEvents() {
@@ -317,8 +337,14 @@
       const open = navLinks.classList.toggle("open");
       navOverlay.classList.toggle("open", open);
       navToggle.setAttribute("aria-expanded", open);
+      if (open) navLinks.querySelector("a")?.focus();
+      else navToggle.focus();
     });
-    navOverlay.addEventListener("click", () => { navLinks.classList.remove("open"); navOverlay.classList.remove("open"); });
+    navOverlay.addEventListener("click", () => {
+      navLinks.classList.remove("open");
+      navOverlay.classList.remove("open");
+      navToggle.setAttribute("aria-expanded", "false");
+    });
 
     // Mobile mega menu expand
     const shopMega = document.getElementById("shopMega");
@@ -331,9 +357,42 @@
     // Search
     const searchToggle = document.getElementById("searchToggle");
     const searchPanel = document.getElementById("searchPanel");
-    searchToggle.addEventListener("click", () => searchPanel.classList.toggle("open"));
+    searchToggle.addEventListener("click", () => {
+      const open = searchPanel.classList.toggle("open");
+      searchToggle.setAttribute("aria-expanded", open);
+      if (open) searchPanel.querySelector("input")?.focus();
+    });
     document.addEventListener("click", (e) => {
-      if (!searchPanel.contains(e.target) && e.target !== searchToggle) searchPanel.classList.remove("open");
+      if (!searchPanel.contains(e.target) && e.target !== searchToggle) {
+        searchPanel.classList.remove("open");
+        searchToggle.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    // Global Escape key: close mobile nav, search panel, and drawers (whichever is open)
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        if (document.querySelector(".drawer.open")) { closeDrawers(); return; }
+        if (searchPanel.classList.contains("open")) { searchPanel.classList.remove("open"); searchToggle.setAttribute("aria-expanded", "false"); searchToggle.focus(); return; }
+        if (navLinks.classList.contains("open")) {
+          navLinks.classList.remove("open");
+          navOverlay.classList.remove("open");
+          navToggle.setAttribute("aria-expanded", "false");
+          navToggle.focus();
+        }
+        return;
+      }
+      // Focus trap: keep Tab navigation inside an open drawer
+      if (e.key === "Tab") {
+        const openDrawerEl = document.querySelector(".drawer.open");
+        if (!openDrawerEl) return;
+        const focusables = openDrawerEl.querySelectorAll('a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])');
+        if (!focusables.length) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
     });
 
     // Theme toggle
@@ -342,7 +401,10 @@
       const next = current === "dark" ? "light" : "dark";
       document.documentElement.setAttribute("data-theme", next);
       AlshafiStore.setTheme(next);
-      document.getElementById("themeToggle").innerHTML = next === "dark" ? I.moon : I.sun;
+      const btn = document.getElementById("themeToggle");
+      btn.innerHTML = next === "dark" ? I.moon : I.sun;
+      btn.setAttribute("aria-label", next === "dark" ? "Switch to light mode" : "Switch to dark mode");
+      showToast(next === "dark" ? "Dark mode enabled" : "Light mode enabled");
     });
 
     // Language toggle (demo: EN <-> UR labels; full i18n dictionary ready for expansion)
@@ -382,7 +444,14 @@
   // ---------------------------------------------------------------------
   function ensureToastWrap() {
     let wrap = document.querySelector(".toast-wrap");
-    if (!wrap) { wrap = document.createElement("div"); wrap.className = "toast-wrap"; document.body.appendChild(wrap); }
+    if (!wrap) {
+      wrap = document.createElement("div");
+      wrap.className = "toast-wrap";
+      wrap.setAttribute("role", "status");
+      wrap.setAttribute("aria-live", "polite");
+      wrap.setAttribute("aria-atomic", "true");
+      document.body.appendChild(wrap);
+    }
     return wrap;
   }
   function showToast(message) {

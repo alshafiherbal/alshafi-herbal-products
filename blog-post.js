@@ -23,6 +23,19 @@
       description: post.excerpt,
     });
 
+    const breadcrumbSchema = document.createElement("script");
+    breadcrumbSchema.type = "application/ld+json";
+    breadcrumbSchema.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.alshafiherbal.com/" },
+        { "@type": "ListItem", position: 2, name: "Blog", item: "https://www.alshafiherbal.com/blog.html" },
+        { "@type": "ListItem", position: 3, name: post.title, item: `https://www.alshafiherbal.com/blog-post.html?slug=${post.slug}` },
+      ],
+    });
+    document.head.appendChild(breadcrumbSchema);
+
     document.getElementById("postHeader").innerHTML = `
       <span class="eyebrow">${post.category}</span>
       <h1>${post.title}</h1>

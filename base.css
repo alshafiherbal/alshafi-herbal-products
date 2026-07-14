@@ -127,9 +127,27 @@ section.section-tight { padding: var(--sp-7) 0; }
   text-transform: uppercase;
   transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
   white-space: nowrap;
+  position: relative;
+  overflow: hidden;
 }
 .btn:hover { transform: translateY(-2px); }
 .btn:active { transform: translateY(0); }
+
+.btn-gold, .btn-green {
+  position: relative;
+  isolation: isolate;
+}
+.btn-gold::before, .btn-green::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -60%;
+  width: 40%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+  transform: skewX(-20deg);
+  transition: left 550ms var(--ease-out);
+  pointer-events: none;
+}
+.btn-gold:hover::before, .btn-green:hover::before { left: 130%; }
 
 .btn-gold {
   background: var(--grad-gold);

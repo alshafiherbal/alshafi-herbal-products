@@ -3,14 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact Us | Alshafi Herbal Products</title>
-<meta name="description" content="Get in touch with Alshafi Herbal Products. Call, WhatsApp, or send us a message for product guidance and order support.">
+<title>Contact Us — Jhang, Punjab | Alshafi Herbal Products</title>
+<meta name="description" content="Contact Alshafi Herbal Products in Jhang, Punjab. WhatsApp +92 319 3830108, call, email, or visit us near Ayub Chowk for herbal product guidance and order support.">
 <link rel="canonical" href="https://www.alshafiherbal.com/contact.html">
 <meta property="og:title" content="Contact Us | Alshafi Herbal Products">
 <meta property="og:description" content="Call, WhatsApp, or message us for product guidance and order support.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0A0D0A">
+<meta name="author" content="Alshafi Herbal Products">
 <link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -84,20 +87,20 @@
           <h4 class="mb-4">Get in Touch</h4>
           <div class="footer-col">
             <ul style="gap:var(--sp-4);">
-              <li>📍 123 Herbal Street, Islamabad, Pakistan</li>
-              <li>📞 <a href="tel:+923001234567">+92 300 1234567</a></li>
-              <li>✉️ <a href="mailto:info@alshafiherbal.com">info@alshafiherbal.com</a></li>
+              <li>📍 District Jhang, Ayub Chowk, Near Al Jannat Bakery, Punjab, Pakistan</li>
+              <li>📞 <a href="tel:+923193830108">+92 319 3830108</a></li>
+              <li>✉️ <a href="mailto:alshafialshafiherbalproducts@gmail.com">alshafialshafiherbalproducts@gmail.com</a></li>
               <li>🕒 Mon – Sat: 9:00 AM – 8:00 PM</li>
             </ul>
           </div>
           <div class="social-row">
             <a href="https://facebook.com" class="social-icon" aria-label="Facebook" target="_blank" rel="noopener">FB</a>
             <a href="https://instagram.com" class="social-icon" aria-label="Instagram" target="_blank" rel="noopener">IG</a>
-            <a href="https://wa.me/923001234567" class="social-icon" aria-label="WhatsApp" target="_blank" rel="noopener">WA</a>
+            <a href="https://wa.me/923193830108" class="social-icon" aria-label="WhatsApp" target="_blank" rel="noopener">WA</a>
           </div>
         </div>
         <div class="glass reveal" style="padding:0; overflow:hidden; border-radius:var(--radius-lg);">
-          <iframe title="Alshafi Herbal Products location map" src="https://www.google.com/maps?q=Islamabad,Pakistan&output=embed" width="100%" height="280" style="border:0; display:block;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <iframe title="Alshafi Herbal Products location map — Ayub Chowk, Jhang" src="https://www.google.com/maps?q=Ayub+Chowk,+Jhang,+Punjab,+Pakistan&output=embed" width="100%" height="280" style="border:0; display:block;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
     </div>
@@ -109,22 +112,6 @@
 <script src="js/icons.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/main.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("contactForm");
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    if (!AlshafiUtils.validateForm(form)) { showToast("Please fill in all required fields correctly"); return; }
-    const btn = document.getElementById("contactSubmitBtn");
-    const original = btn.textContent;
-    btn.disabled = true; btn.textContent = "Sending…";
-    const payload = Object.fromEntries(new FormData(form).entries());
-    await AlshafiData.submitContactForm(payload);
-    btn.disabled = false; btn.textContent = original;
-    form.reset();
-    showToast("Message sent! We'll get back to you shortly.");
-  });
-});
-</script>
+<script src="js/contact.js"></script>
 </body>
 </html>

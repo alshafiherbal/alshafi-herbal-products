@@ -42,38 +42,51 @@
       offers: { "@type": "Offer", priceCurrency: "PKR", price: product.price, availability: product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock" }
     });
 
+    const breadcrumbSchema = document.createElement("script");
+    breadcrumbSchema.type = "application/ld+json";
+    breadcrumbSchema.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.alshafiherbal.com/" },
+        { "@type": "ListItem", position: 2, name: "Shop", item: "https://www.alshafiherbal.com/shop.html" },
+        { "@type": "ListItem", position: 3, name: product.name, item: `https://www.alshafiherbal.com/product.html?slug=${product.slug}` },
+      ],
+    });
+    document.head.appendChild(breadcrumbSchema);
+
     const wished = AlshafiStore.isWishlisted(product.slug);
     const grid = document.getElementById("productDetailGrid");
     grid.innerHTML = `
       <div class="pd-gallery reveal in-view">
-        <div class="pd-gallery-main glass"><img id="pdMainImg" src="${product.images[0]}" alt="${product.name}" width="600" height="600"></div>
-        ${product.images.length > 1 ? `<div class="pd-thumbs">${product.images.map((img, i) => `<img src="${img}" alt="${product.name} view ${i + 1}" class="${i === 0 ? "active" : ""}" data-src="${img}">`).join("")}</div>` : ""}
+        <div class="pd-gallery-main glass"><img id="pdMainImg" src="${product.images[0]}" alt="${product.name}" width="600" height="600" decoding="async"></div>
+        ${product.images.length > 1 ? `<div class="pd-thumbs" role="group" aria-label="${product.name} image gallery">${product.images.map((img, i) => `<img src="${img}" alt="${product.name} view ${i + 1}" class="${i === 0 ? "active" : ""}" data-src="${img}" loading="lazy" decoding="async" width="76" height="76" tabindex="0" role="button" aria-label="Show image ${i + 1} of ${product.images.length}">`).join("")}</div>` : ""}
       </div>
       <div class="pd-info reveal in-view">
         <span class="product-cat">${product.categoryLabel}</span>
         <h1 class="pd-title">${product.name}</h1>
         <div class="pd-meta-row">
-          <div class="product-rating"><span class="stars">${starString(product.rating)}</span> ${product.rating} (${product.reviewCount} reviews)</div>
+          <div class="product-rating"><span class="stars" aria-hidden="true">${starString(product.rating)}</span><span class="visually-hidden">Rated ${product.rating} out of 5</span> ${product.rating} (${product.reviewCount} reviews)</div>
           ${product.stock > 0 ? `<span class="badge badge-new">In Stock</span>` : `<span class="badge badge-sale">Out of Stock</span>`}
         </div>
         <div class="pd-price-row">
           <span class="price-now" data-price="${product.price}">${AlshafiStore.formatPrice(product.price)}</span>
-          ${product.oldPrice ? `<span class="price-old" data-price="${product.oldPrice}">${AlshafiStore.formatPrice(product.oldPrice)}</span><span class="badge badge-sale">Save ${Math.round((1 - product.price / product.oldPrice) * 100)}%</span>` : ""}
+          ${product.oldPrice ? `<span class="price-old" data-price="${product.oldPrice}"><span class="visually-hidden">Original price:</span>${AlshafiStore.formatPrice(product.oldPrice)}</span><span class="badge badge-sale">Save ${Math.round((1 - product.price / product.oldPrice) * 100)}%</span>` : ""}
         </div>
         <p class="pd-desc">${product.shortDesc} <span style="color:var(--text-muted); font-size:var(--fs-sm);">(${product.weight})</span></p>
 
         <div class="pd-qty-cart">
-          <div class="qty-box">
-            <button id="qtyMinus" aria-label="Decrease quantity">−</button>
-            <input type="text" id="qtyInput" value="1" readonly aria-label="Quantity">
-            <button id="qtyPlus" aria-label="Increase quantity">+</button>
+          <div class="qty-box" role="group" aria-label="Quantity selector">
+            <button id="qtyMinus" aria-label="Decrease quantity" type="button">−</button>
+            <input type="text" id="qtyInput" value="1" readonly aria-label="Quantity" aria-live="polite">
+            <button id="qtyPlus" aria-label="Increase quantity" type="button">+</button>
           </div>
-          <button class="btn btn-gold" id="addCartBtn" ${product.stock <= 0 ? "disabled" : ""}>${I.cart} Add to Cart</button>
-          <button class="icon-btn" id="pdWishlistBtn" style="border:1px solid rgba(198,161,91,0.25);" aria-label="Toggle wishlist">${I.heart}</button>
+          <button class="btn btn-gold" id="addCartBtn" aria-label="Add ${product.name} to cart" ${product.stock <= 0 ? "disabled" : ""}>${I.cart} Add to Cart</button>
+          <button class="icon-btn" id="pdWishlistBtn" style="border:1px solid rgba(198,161,91,0.25);" aria-label="${wished ? "Remove from wishlist" : "Add to wishlist"}" aria-pressed="${wished}">${I.heart}</button>
         </div>
         <div class="pd-cta-row">
-          <a href="https://wa.me/923001234567?text=${encodeURIComponent("Assalamualaikum, I'd like to order: " + product.name)}" target="_blank" rel="noopener" class="btn btn-green">${I.whatsapp} Order on WhatsApp</a>
-          <a href="checkout.html?buynow=${product.slug}" class="btn btn-outline">Buy Now</a>
+          <a href="https://wa.me/923193830108?text=${encodeURIComponent("Assalamualaikum, I'd like to order: " + product.name)}" target="_blank" rel="noopener" class="btn btn-green" aria-label="Order ${product.name} on WhatsApp">${I.whatsapp} Order on WhatsApp</a>
+          <button class="btn btn-outline" id="buyNowBtn" type="button" ${product.stock <= 0 ? "disabled" : ""}>Buy Now</button>
         </div>
 
         <div class="pd-trust-row">
@@ -84,12 +97,16 @@
       </div>
     `;
 
-    // Gallery thumb switching
+    // Gallery thumb switching (mouse + keyboard)
+    function selectThumb(thumb) {
+      document.getElementById("pdMainImg").src = thumb.dataset.src;
+      document.querySelectorAll(".pd-thumbs img").forEach(t => t.classList.remove("active"));
+      thumb.classList.add("active");
+    }
     document.querySelectorAll(".pd-thumbs img").forEach(thumb => {
-      thumb.addEventListener("click", () => {
-        document.getElementById("pdMainImg").src = thumb.dataset.src;
-        document.querySelectorAll(".pd-thumbs img").forEach(t => t.classList.remove("active"));
-        thumb.classList.add("active");
+      thumb.addEventListener("click", () => selectThumb(thumb));
+      thumb.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); selectThumb(thumb); }
       });
     });
 
@@ -103,14 +120,21 @@
       showToast(`${product.name} added to cart`);
     });
 
+    // Buy Now: add to cart with selected quantity, then jump straight to checkout
+    document.getElementById("buyNowBtn").addEventListener("click", () => {
+      AlshafiStore.addToCart(product, parseInt(qtyInput.value));
+      window.location.href = "checkout.html";
+    });
+
     const wishBtn = document.getElementById("pdWishlistBtn");
-    if (wished) wishBtn.classList.add("active");
-    wishBtn.style.color = wished ? "var(--color-gold-bright)" : "";
     wishBtn.addEventListener("click", () => {
       const isNow = AlshafiStore.toggleWishlist(product.slug);
       wishBtn.style.color = isNow ? "var(--color-gold-bright)" : "";
+      wishBtn.setAttribute("aria-pressed", isNow);
+      wishBtn.setAttribute("aria-label", isNow ? "Remove from wishlist" : "Add to wishlist");
       showToast(isNow ? "Added to wishlist" : "Removed from wishlist");
     });
+    if (wished) wishBtn.style.color = "var(--color-gold-bright)";
 
     // Tabs
     document.getElementById("tab-description").innerHTML = `<p>${product.description}</p>`;

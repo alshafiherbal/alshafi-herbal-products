@@ -24,7 +24,7 @@
     } else {
       wrap.innerHTML = `<div class="glass" style="padding:var(--sp-6);">` + cart.map(item => `
         <div class="cart-line" data-id="${item.id}">
-          <img src="${item.image}" alt="${item.name}" loading="lazy">
+          <img src="${item.image}" alt="${item.name}" loading="lazy" decoding="async" width="70" height="70">
           <div class="cart-line-info">
             <strong><a href="product.html?slug=${item.slug}">${item.name}</a></strong>
             <span class="form-hint">${item.weight || ""}</span>

@@ -86,16 +86,27 @@
 
   function wireNewsletter() {
     const form = document.getElementById("newsletterForm");
+    const emailField = document.getElementById("newsletterEmail");
+    emailField.addEventListener("blur", () => {
+      const valid = emailField.value.trim() === "" || AlshafiUtils.validateEmail(emailField.value);
+      emailField.setAttribute("aria-invalid", !valid);
+    });
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const email = document.getElementById("newsletterEmail").value.trim();
-      if (!AlshafiUtils.validateEmail(email)) { showToast("Please enter a valid email address"); return; }
+      const email = emailField.value.trim();
+      if (!AlshafiUtils.validateEmail(email)) {
+        showToast("Please enter a valid email address");
+        emailField.setAttribute("aria-invalid", "true");
+        emailField.focus();
+        return;
+      }
       const btn = form.querySelector("button");
       const original = btn.textContent;
       btn.textContent = "Subscribing…"; btn.disabled = true;
       await AlshafiData.subscribeNewsletter(email);
       btn.textContent = original; btn.disabled = false;
       form.reset();
+      emailField.removeAttribute("aria-invalid");
       showToast("Thanks for subscribing to Alshafi Wellness Circle!");
     });
   }

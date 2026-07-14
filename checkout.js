@@ -21,14 +21,35 @@
     // Build WhatsApp order message
     const lines = cart.map(i => `- ${i.name} x${i.qty} (${AlshafiStore.formatPrice(i.price * i.qty)})`).join("%0A");
     const msg = `Assalamualaikum, I'd like to place an order:%0A${lines}%0A%0ATotal: ${encodeURIComponent(AlshafiStore.formatPrice(subtotal + shipping))}`;
-    document.getElementById("whatsappOrderBtn").href = `https://wa.me/923001234567?text=${msg}`;
+    document.getElementById("whatsappOrderBtn").href = `https://wa.me/923193830108?text=${msg}`;
   }
 
   function wireForm() {
     const form = document.getElementById("checkoutForm");
+
+    // Real-time validation: clear/set error state as the person leaves each field
+    form.querySelectorAll("input[required], textarea[required]").forEach(field => {
+      field.addEventListener("blur", () => {
+        const wrap = field.closest(".form-field");
+        if (!wrap) return;
+        let valid = field.value.trim() !== "";
+        if (field.type === "email" && valid) valid = AlshafiUtils.validateEmail(field.value);
+        if (field.type === "tel" && valid) valid = AlshafiUtils.validatePhone(field.value);
+        wrap.classList.toggle("invalid", !valid);
+      });
+      field.addEventListener("input", () => {
+        const wrap = field.closest(".form-field");
+        if (wrap && wrap.classList.contains("invalid") && field.value.trim() !== "") wrap.classList.remove("invalid");
+      });
+    });
+
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      if (!AlshafiUtils.validateForm(form)) { showToast("Please fill in all required fields correctly"); return; }
+      if (!AlshafiUtils.validateForm(form)) {
+        showToast("Please fill in all required fields correctly");
+        form.querySelector(".form-field.invalid input, .form-field.invalid textarea")?.focus();
+        return;
+      }
       if (!AlshafiStore.getCart().length) { showToast("Your cart is empty"); return; }
 
       const btn = document.getElementById("placeOrderBtn");
@@ -56,17 +77,40 @@
 
       if (result.success) {
         document.getElementById("orderIdDisplay").textContent = result.orderId;
-        document.getElementById("confirmOverlay").classList.add("open");
-        document.getElementById("confirmModal").style.display = "block";
+        openConfirmModal();
         AlshafiStore.clearCart();
         form.reset();
+      } else {
+        showToast("Something went wrong placing your order. Please try again or order via WhatsApp.");
       }
+    });
+  }
+
+  function openConfirmModal() {
+    const overlay = document.getElementById("confirmOverlay");
+    const modal = document.getElementById("confirmModal");
+    overlay.classList.add("open");
+    modal.style.display = "block";
+    document.body.style.overflow = "hidden";
+    document.getElementById("confirmBackHome").focus();
+  }
+  function closeConfirmModal() {
+    document.getElementById("confirmOverlay").classList.remove("open");
+    document.getElementById("confirmModal").style.display = "none";
+    document.body.style.overflow = "";
+  }
+
+  function wireModalDismiss() {
+    document.getElementById("confirmOverlay").addEventListener("click", closeConfirmModal);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && document.getElementById("confirmModal").style.display === "block") closeConfirmModal();
     });
   }
 
   document.addEventListener("DOMContentLoaded", () => {
     renderSummary();
     wireForm();
+    wireModalDismiss();
     AlshafiStore.onChange("cart", renderSummary);
   });
 })();

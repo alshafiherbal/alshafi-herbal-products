@@ -323,7 +323,7 @@ const ALSHAFI_BLOG_POSTS = [
     excerpt: "Explore how this Himalayan resin has been used for centuries to support energy and vitality in classical herbal practice.",
     image: "https://images.unsplash.com/photo-1609501676725-7186f017a4b7?w=700&q=80",
     date: "2026-06-02",
-    author: "Hakeem Abdul Sami",
+    author: "Saji Khokhar",
     category: "Herbal Education",
     content: [
       "Shilajit is a mineral-rich resin that seeps from rock formations high in the Himalayas, formed gradually over centuries as plant matter decomposes under pressure. In classical Unani and Ayurvedic practice, it has long held a place among the most valued natural substances for supporting daily vitality.",
